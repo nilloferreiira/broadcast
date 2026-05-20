@@ -9,6 +9,7 @@
     {
       "source": "functions",
       "codebase": "default",
+      "region": "southamerica-east1",
       "disallowLegacyRuntimeConfig": true,
       "ignore": [
         "node_modules",

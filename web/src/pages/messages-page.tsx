@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Box, Button, Dialog, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Typography } from '@mui/material'
 import { useAuth } from '../hooks/use-auth'
 import { useMessages } from '../hooks/use-messages'
 import { useContacts } from '../hooks/use-contacts'
@@ -13,8 +13,8 @@ import type { MessageForm as MessageFormType } from '../schemas/message.schema'
 export function MessagesPage() {
   const { connectionId = '' } = useParams<{ connectionId: string }>()
   const { user } = useAuth()
-  const messages = useMessages(user?.uid ?? '', connectionId)
-  const contacts = useContacts(user?.uid ?? '', connectionId)
+  const { messages, isLoading } = useMessages(user?.uid ?? '', connectionId)
+  const { contacts } = useContacts(user?.uid ?? '', connectionId)
   const [statusFilter, setStatusFilter] = useState<'all' | 'agendado' | 'enviado'>('all')
   const [addOpen, setAddOpen] = useState(false)
 
@@ -53,7 +53,9 @@ export function MessagesPage() {
         </Typography>
       ) : (
         <Box className="flex flex-col gap-3 mt-4">
-          {filtered.map((message) => (
+          {isLoading ? (
+            <CircularProgress />
+          ) : filtered.map((message) => (
             <MessageCard
               key={message.id}
               message={message}

@@ -12,9 +12,9 @@ export const RegisterForm = ({ onSubmit }: Props) => {
   return (
     <form onSubmit={handleSubmit((data) => onSubmit(data))}>
       <Stack spacing={2}>
-        <TextField label="E-mail" {...register('email')} error={!!errors.email} helperText={errors.email?.message} fullWidth />
-        <TextField label="Senha" type="password" {...register('password')} error={!!errors.password} helperText={errors.password?.message} fullWidth />
-        <TextField label="Confirmar Senha" type="password" {...register('confirmPassword')} error={!!errors.confirmPassword} helperText={errors.confirmPassword?.message} fullWidth />
+        <TextField label="E-mail" slotProps={{ htmlInput: { 'aria-label': 'E-mail' } }} {...register('email')} error={!!errors.email} helperText={errors.email?.message} fullWidth />
+        <TextField label="Senha" type="password" slotProps={{ htmlInput: { 'aria-label': 'Senha' } }} {...register('password')} error={!!errors.password} helperText={errors.password?.message} fullWidth />
+        <TextField label="Confirmar Senha" type="password" slotProps={{ htmlInput: { 'aria-label': 'Confirmar Senha' } }} {...register('confirmPassword')} error={!!errors.confirmPassword} helperText={errors.confirmPassword?.message} fullWidth />
         <Button type="submit" variant="contained" disabled={isSubmitting}>
           {isSubmitting ? 'Criando conta...' : 'Criar conta'}
         </Button>

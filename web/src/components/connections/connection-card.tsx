@@ -82,7 +82,10 @@ export function ConnectionCard({ connection, onEdit, onDelete }: ConnectionCardP
           aria-label="Editar conexão"
           size="small"
           onClick={() => setEditOpen(true)}
-          sx={{ color: '#a1a1aa', '&:hover': { color: 'var(--color-text-2)' } }}
+          sx={{
+            color: 'var(--color-indigo-600, #4f46e5)',
+            '&:hover': { background: 'var(--color-indigo-50, #eef2ff)', color: 'var(--color-indigo-700, #4338ca)' },
+          }}
         >
           <EditIcon sx={{ fontSize: 16 }} />
         </IconButton>
@@ -90,7 +93,10 @@ export function ConnectionCard({ connection, onEdit, onDelete }: ConnectionCardP
           aria-label="Excluir conexão"
           size="small"
           onClick={() => setDeleteOpen(true)}
-          sx={{ color: '#a1a1aa', '&:hover': { color: 'var(--color-destructive)' } }}
+          sx={{
+            color: '#ef4444',
+            '&:hover': { background: '#fef2f2', color: '#dc2626' },
+          }}
         >
           <DeleteIcon sx={{ fontSize: 16 }} />
         </IconButton>

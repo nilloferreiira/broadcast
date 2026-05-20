@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom"
-import { AppBar, Toolbar, Typography, Button, Box, Snackbar, Alert } from "@mui/material"
+import { Button, Snackbar, Alert } from "@mui/material"
 import { signOut } from "firebase/auth"
 import { FirebaseError } from "firebase/app"
 import { useState } from "react"
@@ -23,23 +23,31 @@ export function AppLayout() {
 	}
 
 	return (
-		<div data-slot="app-layout" className="min-h-screen bg-gray-50">
-			<AppBar position="static">
-				<Toolbar>
-					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						Broadcast
-					</Typography>
-					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						{user?.email}
-					</Typography>
-					<Button color="inherit" onClick={handleLogout} className="focus-visible:outline-none focus-visible:ring-2">
+		<div data-slot="app-layout" className="min-h-screen bg-zinc-50">
+			<header className="h-14 bg-white border-b border-zinc-200 flex items-center px-6">
+				<div className="flex items-center gap-2 flex-1">
+					<span className="w-2.5 h-2.5 rounded-full bg-indigo-600" />
+					<span className="font-semibold text-zinc-900 text-sm tracking-tight">Broadcast</span>
+				</div>
+				<div className="flex items-center gap-3">
+					<span className="text-sm text-zinc-500">{user?.email}</span>
+					<Button
+						size="small"
+						variant="outlined"
+						onClick={handleLogout}
+						sx={{
+							borderColor: 'var(--color-border)',
+							color: 'var(--color-text-3)',
+							'&:hover': { borderColor: 'var(--color-border-strong)', background: 'transparent' },
+						}}
+					>
 						Sair
 					</Button>
-				</Toolbar>
-			</AppBar>
-			<Box component="main" className="p-4">
+				</div>
+			</header>
+			<main className="p-6">
 				<Outlet />
-			</Box>
+			</main>
 			<Snackbar open={!!logoutError} autoHideDuration={4000} onClose={() => setLogoutError(null)}>
 				<Alert severity="error" onClose={() => setLogoutError(null)}>
 					{logoutError}

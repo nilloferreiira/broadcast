@@ -1,9 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  Card,
-  CardContent,
-  CardActions,
   Button,
   IconButton,
   Dialog,
@@ -40,34 +37,47 @@ export function ConnectionCard({ connection, onEdit, onDelete }: ConnectionCardP
   }
 
   return (
-    <Card data-slot="connection-card">
-      <CardContent>
-        <Typography variant="h6">{connection.name}</Typography>
-      </CardContent>
-      <CardActions>
-        <Button onClick={() => navigate(`/connections/${connection.id}/contacts`)}>
+    <div data-slot="connection-card" className="bg-white border border-zinc-200 rounded-xl p-4 flex flex-col gap-3">
+      <p className="font-semibold text-zinc-900">{connection.name}</p>
+
+      <div className="flex gap-2">
+        <Button
+          size="small"
+          variant="text"
+          sx={{ color: 'var(--color-text-3)', '&:hover': { background: 'rgba(0,0,0,0.04)' } }}
+          onClick={() => navigate(`/connections/${connection.id}/contacts`)}
+        >
           Contatos
         </Button>
-        <Button onClick={() => navigate(`/connections/${connection.id}/messages`)}>
+        <Button
+          size="small"
+          variant="text"
+          sx={{ color: 'var(--color-text-3)', '&:hover': { background: 'rgba(0,0,0,0.04)' } }}
+          onClick={() => navigate(`/connections/${connection.id}/messages`)}
+        >
           Mensagens
         </Button>
+      </div>
+
+      <div className="flex gap-1 border-t border-zinc-100 pt-2">
         <IconButton
           aria-label="Editar conexão"
+          size="small"
           onClick={() => setEditOpen(true)}
-          className="focus-visible:outline-none focus-visible:ring-2"
+          sx={{ color: '#a1a1aa', '&:hover': { color: 'var(--color-text-2)' } }}
         >
           <EditIcon sx={{ fontSize: 16 }} />
         </IconButton>
         <IconButton
           aria-label="Excluir conexão"
+          size="small"
           onClick={() => setDeleteOpen(true)}
-          className="focus-visible:outline-none focus-visible:ring-2"
+          sx={{ color: '#a1a1aa', '&:hover': { color: 'var(--color-destructive)' } }}
         >
           <DeleteIcon sx={{ fontSize: 16 }} />
         </IconButton>
-      </CardActions>
+      </div>
 
-      {/* Edit Dialog */}
       <Dialog open={editOpen} onClose={() => setEditOpen(false)}>
         <DialogTitle>Editar conexão</DialogTitle>
         <DialogContent>
@@ -78,7 +88,6 @@ export function ConnectionCard({ connection, onEdit, onDelete }: ConnectionCardP
         </DialogContent>
       </Dialog>
 
-      {/* Delete Dialog */}
       <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>
         <DialogTitle>Excluir conexão?</DialogTitle>
         <DialogContent>
@@ -93,6 +102,6 @@ export function ConnectionCard({ connection, onEdit, onDelete }: ConnectionCardP
           </Button>
         </DialogActions>
       </Dialog>
-    </Card>
+    </div>
   )
 }

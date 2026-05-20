@@ -1,9 +1,6 @@
 import { useState } from 'react'
 import {
   Alert,
-  Card,
-  CardContent,
-  CardActions,
   IconButton,
   Dialog,
   DialogTitle,
@@ -57,50 +54,78 @@ export function MessageCard({ message, contacts, onEdit, onDelete }: MessageCard
     sendAt: message.sendAt.toDate(),
   }
 
+  const isScheduled = message.status === 'scheduled'
+
   return (
-    <Card data-slot="message-card">
-      <CardContent>
-        <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-          {recipientNames}
-        </Typography>
-        <Typography
-          variant="body1"
-          className="line-clamp-2"
-          sx={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
+    <div
+      data-slot="message-card"
+      className={`bg-white border border-zinc-200 rounded-xl overflow-hidden border-l-4 ${
+        isScheduled ? 'border-l-amber-400' : 'border-l-emerald-400'
+      }`}
+    >
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-2 mb-2">
+          <p className="font-semibold text-sm text-zinc-900 leading-tight">{recipientNames}</p>
+          <Chip
+            label={isScheduled ? 'Agendado' : 'Enviado'}
+            size="small"
+            sx={{
+              backgroundColor: isScheduled ? 'var(--color-scheduled-bg)' : 'var(--color-sent-bg)',
+              color: isScheduled ? 'var(--color-scheduled)' : 'var(--color-sent)',
+              fontWeight: 500,
+              fontSize: '0.7rem',
+              height: 22,
+              flexShrink: 0,
+            }}
+          />
+        </div>
+
+        <p
+          className="text-sm text-zinc-700 mb-3"
+          style={{
+            overflow: 'hidden',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+          }}
         >
           {message.body}
-        </Typography>
-        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
-          {message.sendAt.toDate().toLocaleString('pt-BR')}
-        </Typography>
-        <Chip
-          label={message.status === 'scheduled' ? 'Agendado' : 'Enviado'}
-          color={message.status === 'scheduled' ? 'warning' : 'success'}
-          size="small"
-          sx={{ mt: 1 }}
-        />
-      </CardContent>
+        </p>
 
-      {message.status === 'scheduled' && (
-        <CardActions>
-          <IconButton
-            aria-label="Editar mensagem"
-            onClick={() => setEditOpen(true)}
-            className="focus-visible:outline-none focus-visible:ring-2"
-          >
-            <EditIcon sx={{ fontSize: 16 }} />
-          </IconButton>
-          <IconButton
-            aria-label="Excluir mensagem"
-            onClick={() => setDeleteOpen(true)}
-            className="focus-visible:outline-none focus-visible:ring-2"
-          >
-            <DeleteIcon sx={{ fontSize: 16 }} />
-          </IconButton>
-        </CardActions>
-      )}
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-zinc-400">
+            {message.sendAt.toDate().toLocaleString('pt-BR')}
+          </span>
 
-      {/* Edit Dialog */}
+          {isScheduled && (
+            <div className="flex gap-1">
+              <IconButton
+                aria-label="Editar mensagem"
+                size="small"
+                onClick={() => setEditOpen(true)}
+                sx={{
+                  color: 'var(--color-indigo-600, #4f46e5)',
+                  '&:hover': { background: 'var(--color-indigo-50, #eef2ff)', color: 'var(--color-indigo-700, #4338ca)' },
+                }}
+              >
+                <EditIcon sx={{ fontSize: 15 }} />
+              </IconButton>
+              <IconButton
+                aria-label="Excluir mensagem"
+                size="small"
+                onClick={() => setDeleteOpen(true)}
+                sx={{
+                  color: '#ef4444',
+                  '&:hover': { background: '#fef2f2', color: '#dc2626' },
+                }}
+              >
+                <DeleteIcon sx={{ fontSize: 15 }} />
+              </IconButton>
+            </div>
+          )}
+        </div>
+      </div>
+
       <Dialog open={editOpen} onClose={() => setEditOpen(false)} fullWidth maxWidth="sm">
         <DialogTitle>Editar mensagem</DialogTitle>
         <DialogContent>
@@ -112,7 +137,6 @@ export function MessageCard({ message, contacts, onEdit, onDelete }: MessageCard
         </DialogContent>
       </Dialog>
 
-      {/* Delete Dialog */}
       <Dialog open={deleteOpen} onClose={() => { setDeleteOpen(false); setDeleteError(null) }}>
         <DialogTitle>Excluir mensagem?</DialogTitle>
         <DialogContent>
@@ -126,6 +150,6 @@ export function MessageCard({ message, contacts, onEdit, onDelete }: MessageCard
           </Button>
         </DialogActions>
       </Dialog>
-    </Card>
+    </div>
   )
 }

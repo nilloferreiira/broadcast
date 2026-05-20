@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Box, Paper, Tab, Tabs } from "@mui/material"
+import { Tab, Tabs } from "@mui/material"
 import { LoginForm } from "../components/auth/login-form"
 import { RegisterForm } from "../components/auth/register-form"
 import type { LoginForm as LoginFormType } from "../schemas/auth.schema"
@@ -23,6 +23,7 @@ const firebaseAuthMessages: Record<string, string> = {
 export function LoginPage() {
 	const [tab, setTab] = useState<"login" | "register">("login")
 	const navigate = useNavigate()
+
 	const handleLogin = async (data: LoginFormType) => {
 		try {
 			await signInWithEmailAndPassword(auth, data.email, data.password)
@@ -48,14 +49,15 @@ export function LoginPage() {
 	}
 
 	return (
-		<Box className="min-h-screen bg-gray-100 flex items-center justify-center">
-			<Paper className="p-8 w-full max-w-sm">
+		<div className="min-h-screen bg-zinc-50 flex items-center justify-center p-4">
+			<div className="w-full max-w-sm bg-white rounded-xl border border-zinc-200 p-8">
+				<h1 className="text-xl font-semibold text-zinc-900 mb-6">Broadcast</h1>
 				<Tabs value={tab} onChange={(_, v) => setTab(v)} className="mb-6">
 					<Tab label="Entrar" value="login" />
 					<Tab label="Criar conta" value="register" />
 				</Tabs>
 				{tab === "login" ? <LoginForm onSubmit={handleLogin} /> : <RegisterForm onSubmit={handleRegister} />}
-			</Paper>
-		</Box>
+			</div>
+		</div>
 	)
 }

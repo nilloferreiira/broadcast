@@ -1,8 +1,5 @@
 import { useState } from 'react'
 import {
-  Card,
-  CardContent,
-  CardActions,
   IconButton,
   Dialog,
   DialogTitle,
@@ -37,32 +34,44 @@ export function ContactCard({ contact, onEdit, onDelete }: ContactCardProps) {
     setDeleteOpen(false)
   }
 
+  const initials = contact.name.charAt(0).toUpperCase()
+
   return (
-    <Card data-slot="contact-card">
-      <CardContent>
-        <Typography variant="h6">{contact.name}</Typography>
-        <Typography variant="body2" color="text.secondary">
-          {contact.phone}
-        </Typography>
-      </CardContent>
-      <CardActions>
+    <div data-slot="contact-card" className="bg-white border border-zinc-200 rounded-xl px-4 py-3 flex items-center gap-3">
+      <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+        <span className="text-xs font-semibold text-indigo-600">{initials}</span>
+      </div>
+
+      <div className="flex-1 min-w-0">
+        <p className="font-medium text-zinc-900 text-sm truncate">{contact.name}</p>
+        <p className="text-zinc-500 text-xs">{contact.phone}</p>
+      </div>
+
+      <div className="flex gap-1 flex-shrink-0">
         <IconButton
           aria-label="Editar contato"
+          size="small"
           onClick={() => setEditOpen(true)}
-          className="focus-visible:outline-none focus-visible:ring-2"
+          sx={{
+            color: 'var(--color-indigo-600, #4f46e5)',
+            '&:hover': { background: 'var(--color-indigo-50, #eef2ff)', color: 'var(--color-indigo-700, #4338ca)' },
+          }}
         >
           <EditIcon sx={{ fontSize: 16 }} />
         </IconButton>
         <IconButton
           aria-label="Excluir contato"
+          size="small"
           onClick={() => setDeleteOpen(true)}
-          className="focus-visible:outline-none focus-visible:ring-2"
+          sx={{
+            color: '#ef4444',
+            '&:hover': { background: '#fef2f2', color: '#dc2626' },
+          }}
         >
           <DeleteIcon sx={{ fontSize: 16 }} />
         </IconButton>
-      </CardActions>
+      </div>
 
-      {/* Edit Dialog */}
       <Dialog open={editOpen} onClose={() => setEditOpen(false)}>
         <DialogTitle>Editar contato</DialogTitle>
         <DialogContent>
@@ -73,7 +82,6 @@ export function ContactCard({ contact, onEdit, onDelete }: ContactCardProps) {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Dialog */}
       <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>
         <DialogTitle>Excluir contato?</DialogTitle>
         <DialogContent>
@@ -86,6 +94,6 @@ export function ContactCard({ contact, onEdit, onDelete }: ContactCardProps) {
           </Button>
         </DialogActions>
       </Dialog>
-    </Card>
+    </div>
   )
 }

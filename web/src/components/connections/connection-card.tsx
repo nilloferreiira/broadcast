@@ -1,9 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  Card,
-  CardContent,
-  CardActions,
   Button,
   IconButton,
   Dialog,
@@ -14,6 +11,8 @@ import {
 } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutlined'
 import { ConnectionForm } from './connection-form'
 import type { Connection } from '../../types'
 import type { ConnectionForm as ConnectionFormType } from '../../schemas/connection.schema'
@@ -40,34 +39,69 @@ export function ConnectionCard({ connection, onEdit, onDelete }: ConnectionCardP
   }
 
   return (
-    <Card data-slot="connection-card">
-      <CardContent>
-        <Typography variant="h6">{connection.name}</Typography>
-      </CardContent>
-      <CardActions>
-        <Button onClick={() => navigate(`/connections/${connection.id}/contacts`)}>
+    <div data-slot="connection-card" className="bg-white border border-zinc-200 rounded-xl p-4 flex flex-col gap-3">
+      <p className="font-semibold text-zinc-900">{connection.name}</p>
+
+      <div className="flex gap-2">
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<PeopleAltIcon sx={{ fontSize: 14 }} />}
+          sx={{
+            borderColor: 'var(--color-indigo-200, #c7d2fe)',
+            color: 'var(--color-indigo-600, #4f46e5)',
+            '&:hover': {
+              borderColor: 'var(--color-indigo-400, #818cf8)',
+              background: 'var(--color-indigo-50, #eef2ff)',
+            },
+          }}
+          onClick={() => navigate(`/connections/${connection.id}/contacts`)}
+        >
           Contatos
         </Button>
-        <Button onClick={() => navigate(`/connections/${connection.id}/messages`)}>
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<ChatBubbleOutlineIcon sx={{ fontSize: 14 }} />}
+          sx={{
+            borderColor: 'var(--color-indigo-200, #c7d2fe)',
+            color: 'var(--color-indigo-600, #4f46e5)',
+            '&:hover': {
+              borderColor: 'var(--color-indigo-400, #818cf8)',
+              background: 'var(--color-indigo-50, #eef2ff)',
+            },
+          }}
+          onClick={() => navigate(`/connections/${connection.id}/messages`)}
+        >
           Mensagens
         </Button>
+      </div>
+
+      <div className="flex gap-1 border-t border-zinc-100 pt-2">
         <IconButton
           aria-label="Editar conexão"
+          size="small"
           onClick={() => setEditOpen(true)}
-          className="focus-visible:outline-none focus-visible:ring-2"
+          sx={{
+            color: 'var(--color-indigo-600, #4f46e5)',
+            '&:hover': { background: 'var(--color-indigo-50, #eef2ff)', color: 'var(--color-indigo-700, #4338ca)' },
+          }}
         >
           <EditIcon sx={{ fontSize: 16 }} />
         </IconButton>
         <IconButton
           aria-label="Excluir conexão"
+          size="small"
           onClick={() => setDeleteOpen(true)}
-          className="focus-visible:outline-none focus-visible:ring-2"
+          sx={{
+            color: '#ef4444',
+            '&:hover': { background: '#fef2f2', color: '#dc2626' },
+          }}
         >
           <DeleteIcon sx={{ fontSize: 16 }} />
         </IconButton>
-      </CardActions>
+      </div>
 
-      {/* Edit Dialog */}
       <Dialog open={editOpen} onClose={() => setEditOpen(false)}>
         <DialogTitle>Editar conexão</DialogTitle>
         <DialogContent>
@@ -78,7 +112,6 @@ export function ConnectionCard({ connection, onEdit, onDelete }: ConnectionCardP
         </DialogContent>
       </Dialog>
 
-      {/* Delete Dialog */}
       <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>
         <DialogTitle>Excluir conexão?</DialogTitle>
         <DialogContent>
@@ -93,6 +126,6 @@ export function ConnectionCard({ connection, onEdit, onDelete }: ConnectionCardP
           </Button>
         </DialogActions>
       </Dialog>
-    </Card>
+    </div>
   )
 }

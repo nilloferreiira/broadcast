@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material"
+import { Button, CircularProgress, Dialog, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { useAuth } from "../hooks/use-auth"
 import { useContacts } from "../hooks/use-contacts"
@@ -30,36 +30,42 @@ export function ContactsPage() {
 	}
 
 	return (
-		<Box>
-			<Box className="flex items-center justify-between mb-4">
-				<Box className="flex items-center gap-2">
-					<IconButton onClick={() => navigate("/connections")} size="small">
-						<ArrowBackIcon />
+		<div>
+			<div className="flex items-center justify-between mb-6">
+				<div className="flex items-center gap-2">
+					<IconButton
+						onClick={() => navigate("/connections")}
+						size="small"
+						sx={{ color: 'var(--color-text-3)' }}
+					>
+						<ArrowBackIcon sx={{ fontSize: 20 }} />
 					</IconButton>
-					<Typography variant="h5">Contatos</Typography>
-				</Box>
+					<h1 className="text-xl font-semibold text-zinc-900">Contatos</h1>
+				</div>
 				<Button variant="contained" onClick={() => setAddOpen(true)}>
 					Novo contato
 				</Button>
-			</Box>
+			</div>
 
-			{contacts.length === 0 ? (
-				<Typography color="text.secondary">Nenhum contato. Adicione um!</Typography>
+			{isLoading ? (
+				<div className="flex justify-center py-12">
+					<CircularProgress size={24} />
+				</div>
+			) : contacts.length === 0 ? (
+				<div className="flex justify-center py-12">
+					<Typography className="text-zinc-400">Nenhum contato. Adicione um!</Typography>
+				</div>
 			) : (
-				<Box className="flex flex-col gap-3">
-					{isLoading ? (
-						<CircularProgress />
-					) : (
-						contacts.map((contact) => (
-							<ContactCard
-								key={contact.id}
-								contact={contact}
-								onEdit={(data) => handleEdit(contact.id, data)}
-								onDelete={() => handleDelete(contact.id)}
-							/>
-						))
-					)}
-				</Box>
+				<div className="flex flex-col gap-2">
+					{contacts.map((contact) => (
+						<ContactCard
+							key={contact.id}
+							contact={contact}
+							onEdit={(data) => handleEdit(contact.id, data)}
+							onDelete={() => handleDelete(contact.id)}
+						/>
+					))}
+				</div>
 			)}
 
 			<Dialog open={addOpen} onClose={() => setAddOpen(false)}>
@@ -68,6 +74,6 @@ export function ContactsPage() {
 					<ContactForm onSubmit={handleAdd} />
 				</DialogContent>
 			</Dialog>
-		</Box>
+		</div>
 	)
 }

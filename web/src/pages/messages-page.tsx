@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material'
+import { Button, CircularProgress, Dialog, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useAuth } from '../hooks/use-auth'
 import { useMessages } from '../hooks/use-messages'
@@ -39,30 +39,36 @@ export function MessagesPage() {
   }
 
   return (
-    <Box>
-      <Box className="flex items-center justify-between mb-4">
-        <Box className="flex items-center gap-2">
-          <IconButton onClick={() => navigate('/connections')} size="small">
-            <ArrowBackIcon />
+    <div>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <IconButton
+            onClick={() => navigate('/connections')}
+            size="small"
+            sx={{ color: 'var(--color-text-3)' }}
+          >
+            <ArrowBackIcon sx={{ fontSize: 20 }} />
           </IconButton>
-          <Typography variant="h5">Mensagens</Typography>
-        </Box>
+          <h1 className="text-xl font-semibold text-zinc-900">Mensagens</h1>
+        </div>
         <Button variant="contained" onClick={() => setAddOpen(true)}>
           Nova mensagem
         </Button>
-      </Box>
+      </div>
 
       <MessageFilter value={statusFilter} onChange={setStatusFilter} />
 
-      {filtered.length === 0 ? (
-        <Typography color="text.secondary" sx={{ mt: 2 }}>
-          Nenhuma mensagem encontrada.
-        </Typography>
+      {isLoading ? (
+        <div className="flex justify-center py-12">
+          <CircularProgress size={24} />
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="flex justify-center py-12">
+          <Typography className="text-zinc-400">Nenhuma mensagem encontrada.</Typography>
+        </div>
       ) : (
-        <Box className="flex flex-col gap-3 mt-4">
-          {isLoading ? (
-            <CircularProgress />
-          ) : filtered.map((message) => (
+        <div className="flex flex-col gap-3 mt-4">
+          {filtered.map((message) => (
             <MessageCard
               key={message.id}
               message={message}
@@ -71,7 +77,7 @@ export function MessagesPage() {
               onDelete={() => handleDelete(message.id)}
             />
           ))}
-        </Box>
+        </div>
       )}
 
       <Dialog open={addOpen} onClose={() => setAddOpen(false)} fullWidth maxWidth="sm">
@@ -80,6 +86,6 @@ export function MessagesPage() {
           <MessageForm contacts={contacts} onSubmit={handleAdd} />
         </DialogContent>
       </Dialog>
-    </Box>
+    </div>
   )
 }

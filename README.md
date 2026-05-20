@@ -74,9 +74,6 @@ cd web && pnpm dev
 
 ---
 
-## Build & Deploy
+## Live
 
-```bash
-cd web && pnpm build
-firebase deploy
-```
+http://broadcast-a94cc.web.app/

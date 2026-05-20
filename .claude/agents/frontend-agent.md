@@ -18,8 +18,6 @@ memory: project
 - **TypeScript** strict
 - **Tailwind CSS v4** com `@theme` e CSS variables
 - **MUI** (`@mui/material`) para componentes headless e primitivos
-- **Tailwind Variants** (`tailwind-variants`) para variantes
-- **Tailwind Merge** (`tailwind-merge`) para merge de classes
 - **MUI Icons** (`@mui/icons-material`) para ícones
 
 ---
@@ -59,9 +57,6 @@ memory: project
 ## Padrões Importantes
 
 ```tsx
-// Sempre usar twMerge
-className={twMerge('classes-base', className)}
-
 // Sempre usar data-slot
 <div data-slot="card">
 
@@ -76,7 +71,6 @@ className="data-disabled:opacity-50 data-selected:bg-primary"
 import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
 <CheckIcon sx={{ fontSize: 16 }} />
-'[&_svg]:size-3.5' // em variantes
 
 // Botões de ícone precisam de aria-label
 <button aria-label="Fechar"><CloseIcon sx={{ fontSize: 16 }} /></button>
@@ -138,8 +132,7 @@ import MenuItem from "@mui/material/MenuItem"
 
 - [ ] Arquivo lowercase com hífens
 - [ ] Named export
-- [ ] `ComponentProps<'elemento'>` + `VariantProps`
-- [ ] Variantes com `tv()`, classes com `twMerge()`
+- [ ] `ComponentProps<'elemento'>`
 - [ ] `data-slot` para identificação
 - [ ] Estados via `data-[state]:`
 - [ ] Cores do tema (não hardcoded)

@@ -1,6 +1,7 @@
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
+	Alert,
 	Button,
 	Checkbox,
 	FormControlLabel,
@@ -27,6 +28,7 @@ export function MessageForm({ contacts, defaultValues, onSubmit }: MessageFormPr
 		watch,
 		setValue,
 		control,
+		setError,
 		formState: { errors, isSubmitting }
 	} = useForm<MessageForm>({
 		resolver: zodResolver(messageSchema),
@@ -41,7 +43,17 @@ export function MessageForm({ contacts, defaultValues, onSubmit }: MessageFormPr
 	const selectedContactIds = watch("contactIds")
 
 	return (
-		<form data-slot="message-form" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+		<form
+			data-slot="message-form"
+			onSubmit={handleSubmit(async (data) => {
+				try {
+					await onSubmit(data)
+				} catch (error) {
+					setError('root', { message: error instanceof Error ? error.message : 'Ocorreu um erro. Tente novamente.' })
+				}
+			})}
+			className="flex flex-col gap-4"
+		>
 			{/* Contact checkboxes */}
 			<div>
 				<Typography variant="subtitle2" gutterBottom>
@@ -107,6 +119,8 @@ export function MessageForm({ contacts, defaultValues, onSubmit }: MessageFormPr
 					{...register("sendAt", { valueAsDate: true })}
 				/>
 			)}
+
+			{errors.root && <Alert severity="error">{errors.root.message}</Alert>}
 
 			<Button
 				type="submit"

@@ -16,17 +16,17 @@ import type { Message } from "../types"
 import type { MessageForm } from "../schemas/message.schema"
 
 const deriveStatus = (scheduleType: MessageForm["scheduleType"], sendAt: Date) =>
-	scheduleType === "imediato" || sendAt <= new Date() ? "enviado" : "agendado"
+	scheduleType === "immediate" || sendAt <= new Date() ? "sent" : "scheduled"
 
 const assertNotSent = async (id: string, action: "editada" | "excluída"): Promise<void> => {
 	const snap = await getDoc(doc(db, "messages", id))
 	if (!snap.exists()) throw new Error("Mensagem não encontrada.")
-	if ((snap.data() as Message).status === "enviado")
+	if ((snap.data() as Message).status === "sent")
 		throw new Error(`Esta mensagem já foi enviada e não pode ser ${action}.`)
 }
 
 export const addMessage = async (userId: string, connectionId: string, data: MessageForm): Promise<void> => {
-	const sendAt = data.scheduleType === "imediato" ? Timestamp.now() : Timestamp.fromDate(data.sendAt)
+	const sendAt = data.scheduleType === "immediate" ? Timestamp.now() : Timestamp.fromDate(data.sendAt)
 
 	await addDoc(collection(db, "messages"), {
 		userId,
@@ -41,7 +41,7 @@ export const addMessage = async (userId: string, connectionId: string, data: Mes
 
 export const updateMessage = async (id: string, data: MessageForm): Promise<void> => {
 	await assertNotSent(id, "editada")
-	const sendAt = data.scheduleType === "imediato" ? Timestamp.now() : Timestamp.fromDate(data.sendAt)
+	const sendAt = data.scheduleType === "immediate" ? Timestamp.now() : Timestamp.fromDate(data.sendAt)
 
 	await updateDoc(doc(db, "messages", id), {
 		contactIds: data.contactIds,

@@ -1,8 +1,8 @@
 import { Tabs, Tab } from '@mui/material'
 
 interface MessageFilterProps {
-  value: 'all' | 'agendado' | 'enviado'
-  onChange: (value: 'all' | 'agendado' | 'enviado') => void
+  value: 'all' | 'scheduled' | 'sent'
+  onChange: (value: 'all' | 'scheduled' | 'sent') => void
 }
 
 export function MessageFilter({ value, onChange }: MessageFilterProps) {
@@ -13,8 +13,8 @@ export function MessageFilter({ value, onChange }: MessageFilterProps) {
       onChange={(_, newValue) => onChange(newValue)}
     >
       <Tab label="Todos" value="all" />
-      <Tab label="Agendado" value="agendado" />
-      <Tab label="Enviado" value="enviado" />
+      <Tab label="Agendado" value="scheduled" />
+      <Tab label="Enviado" value="sent" />
     </Tabs>
   )
 }

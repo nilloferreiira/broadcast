@@ -53,7 +53,7 @@ export function MessageCard({ message, contacts, onEdit, onDelete }: MessageCard
   const editDefaultValues: MessageForm = {
     body: message.body,
     contactIds: message.contactIds,
-    scheduleType: 'agendado',
+    scheduleType: 'scheduled',
     sendAt: message.sendAt.toDate(),
   }
 
@@ -74,14 +74,14 @@ export function MessageCard({ message, contacts, onEdit, onDelete }: MessageCard
           {message.sendAt.toDate().toLocaleString('pt-BR')}
         </Typography>
         <Chip
-          label={message.status}
-          color={message.status === 'agendado' ? 'warning' : 'success'}
+          label={message.status === 'scheduled' ? 'Agendado' : 'Enviado'}
+          color={message.status === 'scheduled' ? 'warning' : 'success'}
           size="small"
           sx={{ mt: 1 }}
         />
       </CardContent>
 
-      {message.status === 'agendado' && (
+      {message.status === 'scheduled' && (
         <CardActions>
           <IconButton
             aria-label="Editar mensagem"

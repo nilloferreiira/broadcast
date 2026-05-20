@@ -1,6 +1,6 @@
 import type { Timestamp } from 'firebase/firestore'
 
-export type MessageStatus = 'agendado' | 'enviado'
+export type MessageStatus = 'scheduled' | 'sent'
 
 export interface Connection {
   id: string

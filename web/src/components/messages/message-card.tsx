@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {
+  Alert,
   Card,
   CardContent,
   CardActions,
@@ -28,6 +29,7 @@ interface MessageCardProps {
 export function MessageCard({ message, contacts, onEdit, onDelete }: MessageCardProps) {
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
 
   const handleEdit = async (data: MessageForm) => {
     await onEdit(data)
@@ -35,8 +37,12 @@ export function MessageCard({ message, contacts, onEdit, onDelete }: MessageCard
   }
 
   const handleDelete = async () => {
-    await onDelete()
-    setDeleteOpen(false)
+    try {
+      await onDelete()
+      setDeleteOpen(false)
+    } catch (error) {
+      setDeleteError(error instanceof Error ? error.message : 'Ocorreu um erro. Tente novamente.')
+    }
   }
 
   const recipientNames = contacts
@@ -64,7 +70,7 @@ export function MessageCard({ message, contacts, onEdit, onDelete }: MessageCard
         >
           {message.body}
         </Typography>
-        <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 1 }}>
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
           {message.sendAt.toDate().toLocaleString('pt-BR')}
         </Typography>
         <Chip
@@ -107,10 +113,11 @@ export function MessageCard({ message, contacts, onEdit, onDelete }: MessageCard
       </Dialog>
 
       {/* Delete Dialog */}
-      <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>
+      <Dialog open={deleteOpen} onClose={() => { setDeleteOpen(false); setDeleteError(null) }}>
         <DialogTitle>Excluir mensagem?</DialogTitle>
         <DialogContent>
           <Typography>Isso excluirá a mensagem permanentemente.</Typography>
+          {deleteError && <Alert severity="error" sx={{ mt: 1 }}>{deleteError}</Alert>}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteOpen(false)}>Cancelar</Button>

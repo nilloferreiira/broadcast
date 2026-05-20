@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { PrivateRoute } from './components/PrivateRoute'
 
-const App = () => (
+export const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/login" element={<div>Login (coming soon)</div>} />
@@ -14,5 +14,3 @@ const App = () => (
     </Routes>
   </BrowserRouter>
 )
-
-export default App

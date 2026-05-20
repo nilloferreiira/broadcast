@@ -17,7 +17,7 @@ export function MessagesPage() {
   const navigate = useNavigate()
   const { messages, isLoading } = useMessages(user?.uid ?? '', connectionId)
   const { contacts } = useContacts(user?.uid ?? '', connectionId)
-  const [statusFilter, setStatusFilter] = useState<'all' | 'agendado' | 'enviado'>('all')
+  const [statusFilter, setStatusFilter] = useState<'all' | 'scheduled' | 'sent'>('all')
   const [addOpen, setAddOpen] = useState(false)
 
   const filtered =

@@ -35,7 +35,7 @@ export function MessageForm({ contacts, defaultValues, onSubmit }: MessageFormPr
 		defaultValues: defaultValues ?? {
 			body: "",
 			contactIds: [],
-			scheduleType: "imediato",
+			scheduleType: "immediate",
 			sendAt: new Date()
 		}
 	})
@@ -101,15 +101,15 @@ export function MessageForm({ contacts, defaultValues, onSubmit }: MessageFormPr
 					control={control}
 					render={({ field }) => (
 						<RadioGroup {...field} row>
-							<FormControlLabel value="imediato" control={<Radio />} label="Imediato" />
-							<FormControlLabel value="agendado" control={<Radio />} label="Agendado" />
+							<FormControlLabel value="immediate" control={<Radio />} label="Imediato" />
+							<FormControlLabel value="scheduled" control={<Radio />} label="Agendado" />
 						</RadioGroup>
 					)}
 				/>
 			</div>
 
 			{/* sendAt field — only shown when scheduleType === 'agendado' */}
-			{watch("scheduleType") === "agendado" && (
+			{watch("scheduleType") === "scheduled" && (
 				<TextField
 					type="datetime-local"
 					label="Data e hora"

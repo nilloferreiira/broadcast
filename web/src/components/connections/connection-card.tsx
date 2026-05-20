@@ -11,6 +11,8 @@ import {
 } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutlined'
 import { ConnectionForm } from './connection-form'
 import type { Connection } from '../../types'
 import type { ConnectionForm as ConnectionFormType } from '../../schemas/connection.schema'
@@ -43,16 +45,32 @@ export function ConnectionCard({ connection, onEdit, onDelete }: ConnectionCardP
       <div className="flex gap-2">
         <Button
           size="small"
-          variant="text"
-          sx={{ color: 'var(--color-text-3)', '&:hover': { background: 'rgba(0,0,0,0.04)' } }}
+          variant="outlined"
+          startIcon={<PeopleAltIcon sx={{ fontSize: 14 }} />}
+          sx={{
+            borderColor: 'var(--color-indigo-200, #c7d2fe)',
+            color: 'var(--color-indigo-600, #4f46e5)',
+            '&:hover': {
+              borderColor: 'var(--color-indigo-400, #818cf8)',
+              background: 'var(--color-indigo-50, #eef2ff)',
+            },
+          }}
           onClick={() => navigate(`/connections/${connection.id}/contacts`)}
         >
           Contatos
         </Button>
         <Button
           size="small"
-          variant="text"
-          sx={{ color: 'var(--color-text-3)', '&:hover': { background: 'rgba(0,0,0,0.04)' } }}
+          variant="outlined"
+          startIcon={<ChatBubbleOutlineIcon sx={{ fontSize: 14 }} />}
+          sx={{
+            borderColor: 'var(--color-indigo-200, #c7d2fe)',
+            color: 'var(--color-indigo-600, #4f46e5)',
+            '&:hover': {
+              borderColor: 'var(--color-indigo-400, #818cf8)',
+              background: 'var(--color-indigo-50, #eef2ff)',
+            },
+          }}
           onClick={() => navigate(`/connections/${connection.id}/messages`)}
         >
           Mensagens

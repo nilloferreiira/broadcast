@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { useParams, useNavigate } from 'react-router-dom'
+import { Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useAuth } from '../hooks/use-auth'
 import { useMessages } from '../hooks/use-messages'
 import { useContacts } from '../hooks/use-contacts'
@@ -13,6 +14,7 @@ import type { MessageForm as MessageFormType } from '../schemas/message.schema'
 export function MessagesPage() {
   const { connectionId = '' } = useParams<{ connectionId: string }>()
   const { user } = useAuth()
+  const navigate = useNavigate()
   const { messages, isLoading } = useMessages(user?.uid ?? '', connectionId)
   const { contacts } = useContacts(user?.uid ?? '', connectionId)
   const [statusFilter, setStatusFilter] = useState<'all' | 'agendado' | 'enviado'>('all')
@@ -39,7 +41,12 @@ export function MessagesPage() {
   return (
     <Box>
       <Box className="flex items-center justify-between mb-4">
-        <Typography variant="h5">Mensagens</Typography>
+        <Box className="flex items-center gap-2">
+          <IconButton onClick={() => navigate('/connections')} size="small">
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="h5">Mensagens</Typography>
+        </Box>
         <Button variant="contained" onClick={() => setAddOpen(true)}>
           Nova mensagem
         </Button>
